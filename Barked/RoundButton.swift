@@ -27,3 +27,12 @@ class RoundButton: UIButton {
     }
     
 }
+
+class SuperTextField: UITextField {
+    
+    override func awakeFromNib() {
+        
+        layer.backgroundColor = UIColor.clear.cgColor
+        
+    }
+}

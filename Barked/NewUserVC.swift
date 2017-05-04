@@ -64,9 +64,6 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     }
     
     // Creating a New User //
-    
-    //TODO: THERE IS NO ERROR HANDLING HERE
-    
 
         
     @IBAction func createUserPress(_ sender: Any) {

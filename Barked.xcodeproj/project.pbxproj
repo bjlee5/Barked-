@@ -19,6 +19,13 @@
 		D075DAED1EB8C2F40099292E /* SexyField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAEC1EB8C2F40099292E /* SexyField.swift */; };
 		D075DAEF1EB8C30B0099292E /* RoundButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAEE1EB8C30B0099292E /* RoundButton.swift */; };
 		D075DAF11EB8C38A0099292E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D075DAF01EB8C38A0099292E /* GoogleService-Info.plist */; };
+		D075DAF51EBA40260099292E /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAF41EBA40260099292E /* BorderedButton.swift */; };
+		D075DAFD1EBA83730099292E /* ErrorBark.wav in Resources */ = {isa = PBXBuildFile; fileRef = D075DAFC1EBA83730099292E /* ErrorBark.wav */; };
+		D075DB031EBA957F0099292E /* DogShakingHead.wav in Resources */ = {isa = PBXBuildFile; fileRef = D075DB021EBA957E0099292E /* DogShakingHead.wav */; };
+		D075DB051EBA99280099292E /* Woof.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D075DB041EBA99280099292E /* Woof.mp3 */; };
+		D075DB071EBA992B0099292E /* Post.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D075DB061EBA992B0099292E /* Post.mp3 */; };
+		D075DB091EBB47C30099292E /* Liked.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D075DB081EBB47C30099292E /* Liked.mp3 */; };
+		D075DB0B1EBB5FFB0099292E /* DeletePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */; };
 		D0E2108D1EB40E2500067DA9 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108C1EB40E2500067DA9 /* FeedVC.swift */; };
 		D0E2108F1EB40E3200067DA9 /* NewUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */; };
 		D0E210931EB40E5000067DA9 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E210921EB40E5000067DA9 /* MyProfileVC.swift */; };
@@ -56,6 +63,13 @@
 		D075DAEC1EB8C2F40099292E /* SexyField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SexyField.swift; sourceTree = "<group>"; };
 		D075DAEE1EB8C30B0099292E /* RoundButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundButton.swift; sourceTree = "<group>"; };
 		D075DAF01EB8C38A0099292E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D075DAF41EBA40260099292E /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
+		D075DAFC1EBA83730099292E /* ErrorBark.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ErrorBark.wav; sourceTree = "<group>"; };
+		D075DB021EBA957E0099292E /* DogShakingHead.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = DogShakingHead.wav; sourceTree = "<group>"; };
+		D075DB041EBA99280099292E /* Woof.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Woof.mp3; sourceTree = "<group>"; };
+		D075DB061EBA992B0099292E /* Post.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Post.mp3; sourceTree = "<group>"; };
+		D075DB081EBB47C30099292E /* Liked.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Liked.mp3; sourceTree = "<group>"; };
+		D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostVC.swift; sourceTree = "<group>"; };
 		D0E2108C1EB40E2500067DA9 /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserVC.swift; sourceTree = "<group>"; };
 		D0E210921EB40E5000067DA9 /* MyProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
@@ -122,6 +136,11 @@
 				D0E2108A1EB40D4B00067DA9 /* View */,
 				D0E2108B1EB40D5000067DA9 /* Controller */,
 				D029CA7F1EB27D60009788CE /* AppDelegate.swift */,
+				D075DAFC1EBA83730099292E /* ErrorBark.wav */,
+				D075DB061EBA992B0099292E /* Post.mp3 */,
+				D075DB021EBA957E0099292E /* DogShakingHead.wav */,
+				D075DB041EBA99280099292E /* Woof.mp3 */,
+				D075DB081EBB47C30099292E /* Liked.mp3 */,
 				D029CA831EB27D60009788CE /* Main.storyboard */,
 				D029CA891EB27D60009788CE /* Assets.xcassets */,
 				D029CA8B1EB27D60009788CE /* LaunchScreen.storyboard */,
@@ -151,6 +170,7 @@
 				D0E210A41EB40F7000067DA9 /* SexyView.swift */,
 				D075DAE81EB8C2800099292E /* CircleView.swift */,
 				D075DAEA1EB8C2DC0099292E /* SexyButton.swift */,
+				D075DAF41EBA40260099292E /* BorderedButton.swift */,
 				D075DAEC1EB8C2F40099292E /* SexyField.swift */,
 				D075DAEE1EB8C30B0099292E /* RoundButton.swift */,
 			);
@@ -166,6 +186,7 @@
 				D075DAE11EB79E880099292E /* PostVC.swift */,
 				D0E210961EB40E6F00067DA9 /* FriendsVC.swift */,
 				D0E210921EB40E5000067DA9 /* MyProfileVC.swift */,
+				D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */,
 				D0E210941EB40E6300067DA9 /* EditProfileVC.swift */,
 				D0E210981EB40EA000067DA9 /* ForgotPasswordVC.swift */,
 			);
@@ -259,9 +280,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D075DB091EBB47C30099292E /* Liked.mp3 in Resources */,
+				D075DB071EBA992B0099292E /* Post.mp3 in Resources */,
 				D075DAF11EB8C38A0099292E /* GoogleService-Info.plist in Resources */,
 				D029CA8D1EB27D60009788CE /* LaunchScreen.storyboard in Resources */,
+				D075DB031EBA957F0099292E /* DogShakingHead.wav in Resources */,
 				D029CA8A1EB27D60009788CE /* Assets.xcassets in Resources */,
+				D075DAFD1EBA83730099292E /* ErrorBark.wav in Resources */,
+				D075DB051EBA99280099292E /* Woof.mp3 in Resources */,
 				D029CA851EB27D60009788CE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,6 +356,7 @@
 				D029CA821EB27D60009788CE /* LogInVC.swift in Sources */,
 				D075DAEB1EB8C2DC0099292E /* SexyButton.swift in Sources */,
 				D029CA881EB27D60009788CE /* Barked.xcdatamodeld in Sources */,
+				D075DB0B1EBB5FFB0099292E /* DeletePostVC.swift in Sources */,
 				D0E210991EB40EA000067DA9 /* ForgotPasswordVC.swift in Sources */,
 				D075DAE91EB8C2800099292E /* CircleView.swift in Sources */,
 				D0E210A71EB40FAD00067DA9 /* User.swift in Sources */,
@@ -341,6 +368,7 @@
 				D0E210A51EB40F7000067DA9 /* SexyView.swift in Sources */,
 				D0E210A11EB40F5200067DA9 /* ProfileCell.swift in Sources */,
 				D0E210A91EB40FB400067DA9 /* Friend.swift in Sources */,
+				D075DAF51EBA40260099292E /* BorderedButton.swift in Sources */,
 				D075DAE21EB79E880099292E /* PostVC.swift in Sources */,
 				D0E210AD1EB40FD100067DA9 /* Constants.swift in Sources */,
 				D0E210B11EB40FE300067DA9 /* DataService.swift in Sources */,

@@ -10,6 +10,7 @@ import UIKit
 import Firebase
 import FBSDKLoginKit
 import SwiftKeychainWrapper
+import AudioToolbox
 
 class LogInVC: UIViewController {
     
@@ -21,6 +22,8 @@ class LogInVC: UIViewController {
         super.viewDidLoad()
         
         showCurrentUser()
+        shakeHeadSound()
+        playSound()
         
         // Dismiss Keyboard //
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -131,6 +134,31 @@ class LogInVC: UIViewController {
         self.present(vc, animated: true, completion: nil)
     }
     
+    // Play Sounds
+    
+    var gameSound: SystemSoundID = 0
+    
+    func shakeHeadSound() {
+        let path = Bundle.main.path(forResource: "DogShakingHead", ofType: "wav")!
+        let soundURL = URL(fileURLWithPath: path)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
+    
+    func playSound() {
+        AudioServicesPlaySystemSound(gameSound)
+    }
+
+    
 }
 
+extension UITextField{
+    @IBInspectable var placeHolderColor: UIColor? {
+        get {
+            return self.placeHolderColor
+        }
+        set {
+            self.attributedPlaceholder = NSAttributedString(string:self.placeholder != nil ? self.placeholder! : "", attributes:[NSForegroundColorAttributeName: UIColor.white])
+        }
+    }
+}
 

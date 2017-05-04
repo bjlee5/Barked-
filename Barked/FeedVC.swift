@@ -29,6 +29,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     /// Referencing the Storage DB then, current User
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     
+    
 
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var currentUser: UILabel!

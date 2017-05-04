@@ -35,7 +35,8 @@ class ForgotPasswordVC: UIViewController {
         })
     }
     
-    @IBAction func backPress(_ sender: Any) {
+
+    @IBAction func backPressed(_ sender: Any) {
         let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LogInVC")
         self.present(vc, animated: true, completion: nil)
     }

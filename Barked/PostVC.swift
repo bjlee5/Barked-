@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AudioToolbox
 
 class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
@@ -159,6 +160,8 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     // Posting to Firebase //
     
     func postToFirebase(imgUrl: String, imgUrlr: String) {
+        soundEffect()
+        playSound()
         
         let uid = FIRAuth.auth()?.currentUser?.uid
         
@@ -185,8 +188,24 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         
         
     }
+    
     @IBAction func backPress(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
+    
+    // Play Sounds
+    
+    var gameSound: SystemSoundID = 0
+    
+    func soundEffect() {
+        let path = Bundle.main.path(forResource: "Post", ofType: "mp3")!
+        let soundURL = URL(fileURLWithPath: path)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
+    
+    func playSound() {
+        AudioServicesPlaySystemSound(gameSound)
+    }
+
     
 }

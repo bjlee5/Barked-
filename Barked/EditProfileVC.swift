@@ -152,8 +152,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
             }
         }
         
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FeedVC")
-        self.present(vc, animated: true, completion: nil)
+        dismiss(animated: true, completion: nil)
         
         
     }
@@ -194,6 +193,51 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
             })
         }
         alert.showEdit("Change Password", subTitle: "Please enter the e-mail address associated with your account")
+    }
+    
+
+    @IBAction func deleteAccount(_ sender: Any) {
+        
+        let appearance = SCLAlertView.SCLAppearance(
+            showCloseButton: false
+        )
+        let alertView = SCLAlertView(appearance: appearance)
+        alertView.addButton("Delete") {
+            self.delete()
+        }
+        alertView.addButton("Cancel") {
+            
+        }
+        alertView.showError("WARNING", subTitle: "Are you sure you want to delete your account?")
+        
+        
+    }
+    
+    func delete() {
+        let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
+        userRef.observe(.value, with: { (snapshot) in
+            
+            
+            FIRAuth.auth()?.currentUser?.delete(completion: { (error) in
+                
+                if error == nil {
+                    
+                    print("BRIAN: Account successfully deleted!")
+                    DispatchQueue.main.async {
+                        
+                        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LogInVC")
+                        self.present(vc, animated: true, completion: nil)
+                        
+                        
+                    }
+                    
+                } else {
+                    
+                    print(error?.localizedDescription)
+                }
+            })
+        })
+        
     }
     
 }

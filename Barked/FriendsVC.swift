@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import AudioToolbox
 
 class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
@@ -87,6 +88,8 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         let key = ref.child("users").childByAutoId().key
         
         var isFollower = false
+        soundEffect()
+        playSound()
         
         ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             if let following = snapshot.value as? [String: AnyObject] {
@@ -142,8 +145,19 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
     }
     
-    @IBAction func backBtn(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    
+    // Play Sounds
+    
+    var gameSound: SystemSoundID = 0
+    
+    func soundEffect() {
+        let path = Bundle.main.path(forResource: "Liked", ofType: "mp3")!
+        let soundURL = URL(fileURLWithPath: path)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
+    
+    func playSound() {
+        AudioServicesPlaySystemSound(gameSound)
     }
     
     

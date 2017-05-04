@@ -24,6 +24,12 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     var following = [String]()
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     
+    // For Layout
+    
+    var screenSize: CGRect!
+    var screenWidth: CGFloat!
+    var screenHeight: CGFloat!
+    
 
     @IBOutlet weak var proPic: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -39,6 +45,23 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        
+        
+        /////////////// Layout /////////////////
+        
+        screenSize = UIScreen.main.bounds
+        screenWidth = screenSize.width
+        screenHeight = screenSize.height
+        
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 0)
+        layout.itemSize = CGSize(width: screenWidth/5, height: screenWidth/5)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        collectionView!.collectionViewLayout = layout
+        
+        
     }
     
     // Load Current User Info
@@ -158,6 +181,11 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         let post = posts[indexPath.row]
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
+
+            cell.layer.borderWidth = 1
+            cell.layer.borderColor = UIColor.white.cgColor
+            cell.frame.size.width = screenWidth / 5
+            cell.frame.size.height = screenWidth / 5
             
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!) {
                 cell.configureCell(post: post, img: img)
@@ -172,19 +200,6 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         }
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let picDimension = self.view.frame.size.width / 4.0
-        return CGSize(width: picDimension, height: picDimension)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let leftRightInset = self.view.frame.size.width / 14.0
-        return UIEdgeInsetsMake(0, leftRightInset, 0, leftRightInset)
-    }
-    
-    
-    
-
     @IBAction func backPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

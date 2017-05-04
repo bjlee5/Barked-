@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import Foundation
+import AudioToolbox
 
 class PostCell: UITableViewCell {
     
@@ -128,6 +129,8 @@ class PostCell: UITableViewCell {
     func likesTapped(sender: UIGestureRecognizer) {
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
+                self.barkSoundEffect()
+                self.playSound()
                 self.likesImage.image = UIImage(named: "filled-heart")
                 self.post.adjustLikes(addLike: true)
                 self.likesRef.setValue(true)
@@ -138,5 +141,20 @@ class PostCell: UITableViewCell {
             }
         })
     }
+    
+    // Play Sounds
+    
+    var gameSound: SystemSoundID = 0
+    
+    func barkSoundEffect() {
+        let path = Bundle.main.path(forResource: "Woof", ofType: "mp3")!
+        let soundURL = URL(fileURLWithPath: path)
+        AudioServicesCreateSystemSoundID(soundURL as CFURL, &gameSound)
+    }
+    
+    func playSound() {
+        AudioServicesPlaySystemSound(gameSound)
+    }
+
 }
 
