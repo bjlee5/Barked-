@@ -1,8 +1,8 @@
 //
-//  ProfileVC.swift
+//  FriendProfileVC.swift
 //  Barked
 //
-//  Created by MacBook Air on 4/28/17.
+//  Created by MacBook Air on 5/5/17.
 //  Copyright © 2017 LionsEye. All rights reserved.
 //
 
@@ -11,17 +11,15 @@ import Firebase
 import SwiftKeychainWrapper
 import SCLAlertView
 
-class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // Refactor storage reference //
     
-    var selectedPost: Post!
+    var selectedUser: Users!
     var posts = [Post]()
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var profilePicLoaded = false
-    var storageRef: FIRStorage {
-        return FIRStorage.storage()
-    }
+    var storageRef: FIRStorage { return FIRStorage.storage() }
     var myPosts = [String]()
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     
@@ -31,14 +29,16 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     
-
+    
     @IBOutlet weak var proPic: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print("LEEZUS: This is your man - \(selectedUser)")
         
         showMyPosts()
         fetchPosts()
@@ -68,7 +68,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     // Load Current User Info
     
     func loadUserInfo(){
-        let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
+        let userRef = DataService.ds.REF_BASE.child("users/\(selectedUser.uid)")
         userRef.observe(.value, with: { (snapshot) in
             
             let user = Users(snapshot: snapshot)
@@ -104,7 +104,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         return this.currentDate > that.currentDate
     }
     
-// MARK: Show Current User Feed
+    // MARK: Show Current User Feed
     
     /// Only show post from Current User
     func showMyPosts() {
@@ -140,7 +140,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         })
     }
     
-    /// Grabbing the Posts from Firebase 
+    /// Grabbing the Posts from Firebase
     func fetchPosts() {
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
             self.posts = []
@@ -184,7 +184,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         let post = posts[indexPath.row]
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
-
+            
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor
             cell.frame.size.width = screenWidth / 5
@@ -203,28 +203,10 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         }
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "DeletePostVC" {
-            print("LEEZUS: Segway to DeletePost is performed!")
-            let destinationViewController = segue.destination as! DeletePostVC
-            destinationViewController.selectedPost = selectedPost
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ProfileCell
-        selectedPost = cell.post
-        performSegue(withIdentifier: "DeletePostVC", sender: self)
-    }
-    
     @IBAction func backPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func editProfile(_ sender: Any) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EditProfileVC")
-        self.present(vc, animated: true, completion: nil)
-    }
-
 }
+
 

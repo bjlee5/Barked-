@@ -11,7 +11,7 @@ import Firebase
 import SwiftKeychainWrapper
 import Foundation
 
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, CellSubclassDelegate {
     
     
     // TO DO: Try using nil coelessing operator for if let statements concerning current username and e-mail address, profilePic & default picture
@@ -28,7 +28,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var following = [String]()
     /// Referencing the Storage DB then, current User
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
-    
+    var selectedUser: Users! 
     
 
     @IBOutlet weak var profilePic: UIImageView!
@@ -39,6 +39,8 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+
         
         profilePic.isHidden = true
         currentUser.isHidden = true
@@ -75,6 +77,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let user = Users(snapshot: snapshot)
             let imageURL = user.photoURL!
             self.currentUser.text = user.username
+            print("LEEZUS: NOW THESE ARE THE DROIDS - \(user.username)")
             
             /// We are downloading the current user's ImageURL then converting it using "data" to the UIImage which takes a property of data
             self.storageRef.reference(forURL: imageURL).data(withMaxSize: 1 * 1024 * 1024, completion: { (imgData, error) in
@@ -179,7 +182,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let post = posts[indexPath.row]
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell {
-            
+            cell.delegate = self
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!), let proImg = FeedVC.imageCache.object(forKey: post.profilePicURL as NSString!) {
                 cell.configureCell(post: post, img: img, proImg: proImg)
             } else {
@@ -192,6 +195,39 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "FriendProfileVC" {
+            print("LEEZUS: Segway to FriendsVC performed!!")
+            let destinationViewController = segue.destination as! FriendProfileVC
+            destinationViewController.selectedUser = selectedUser
+        }
+    }
+    
+    func buttonTapped(cell: PostCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else {
+            // Note, this shouldn't happen - how did the user tap on a button that wasn't on screen?
+            return
+        }
+        
+        //  Do whatever you need to do with the indexPath
+        
+        print("BRIAN: Button tapped on row \(indexPath.row)")
+        let clickedUser = posts[indexPath.row].uid
+        DataService.ds.REF_BASE.child("users/\(clickedUser)").observe(.value, with: { (snapshot) in
+            
+            let user = Users(snapshot: snapshot)
+            self.selectedUser = user
+            print("LEEZUS: I have your fucking user right here - \(user)")
+        })
+        
+        if selectedUser != nil {
+        
+        performSegue(withIdentifier: "FriendProfileVC", sender: self)
+        
+    }
+}
+
 
     // Logging Out //
     

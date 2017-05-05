@@ -11,7 +11,6 @@
 		D029CA821EB27D60009788CE /* LogInVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D029CA811EB27D60009788CE /* LogInVC.swift */; };
 		D029CA851EB27D60009788CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D029CA831EB27D60009788CE /* Main.storyboard */; };
 		D029CA881EB27D60009788CE /* Barked.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D029CA861EB27D60009788CE /* Barked.xcdatamodeld */; };
-		D029CA8A1EB27D60009788CE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D029CA891EB27D60009788CE /* Assets.xcassets */; };
 		D029CA8D1EB27D60009788CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D029CA8B1EB27D60009788CE /* LaunchScreen.storyboard */; };
 		D075DAE21EB79E880099292E /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAE11EB79E880099292E /* PostVC.swift */; };
 		D075DAE91EB8C2800099292E /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAE81EB8C2800099292E /* CircleView.swift */; };
@@ -26,6 +25,9 @@
 		D075DB071EBA992B0099292E /* Post.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D075DB061EBA992B0099292E /* Post.mp3 */; };
 		D075DB091EBB47C30099292E /* Liked.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D075DB081EBB47C30099292E /* Liked.mp3 */; };
 		D075DB0B1EBB5FFB0099292E /* DeletePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */; };
+		D075DB0D1EBC9AB00099292E /* DeletePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */; };
+		D075DB0F1EBCC3460099292E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D075DB0E1EBCC3460099292E /* Assets.xcassets */; };
+		D075DB111EBCC3F50099292E /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB101EBCC3F50099292E /* FriendProfileVC.swift */; };
 		D0E2108D1EB40E2500067DA9 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108C1EB40E2500067DA9 /* FeedVC.swift */; };
 		D0E2108F1EB40E3200067DA9 /* NewUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */; };
 		D0E210931EB40E5000067DA9 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E210921EB40E5000067DA9 /* MyProfileVC.swift */; };
@@ -54,7 +56,6 @@
 		D029CA811EB27D60009788CE /* LogInVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInVC.swift; sourceTree = "<group>"; };
 		D029CA841EB27D60009788CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D029CA871EB27D60009788CE /* Barked.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Barked.xcdatamodel; sourceTree = "<group>"; };
-		D029CA891EB27D60009788CE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D029CA8C1EB27D60009788CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D029CA8E1EB27D60009788CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D075DAE11EB79E880099292E /* PostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
@@ -70,6 +71,9 @@
 		D075DB061EBA992B0099292E /* Post.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Post.mp3; sourceTree = "<group>"; };
 		D075DB081EBB47C30099292E /* Liked.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Liked.mp3; sourceTree = "<group>"; };
 		D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostVC.swift; sourceTree = "<group>"; };
+		D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostCell.swift; sourceTree = "<group>"; };
+		D075DB0E1EBCC3460099292E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Barked/Assets.xcassets; sourceTree = "<group>"; };
+		D075DB101EBCC3F50099292E /* FriendProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
 		D0E2108C1EB40E2500067DA9 /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserVC.swift; sourceTree = "<group>"; };
 		D0E210921EB40E5000067DA9 /* MyProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
@@ -112,6 +116,7 @@
 		D029CA731EB27D60009788CE = {
 			isa = PBXGroup;
 			children = (
+				D075DB0E1EBCC3460099292E /* Assets.xcassets */,
 				D029CA7E1EB27D60009788CE /* Barked */,
 				D029CA7D1EB27D60009788CE /* Products */,
 				9DA5EB2284302B1BE8212A35 /* Pods */,
@@ -142,7 +147,6 @@
 				D075DB041EBA99280099292E /* Woof.mp3 */,
 				D075DB081EBB47C30099292E /* Liked.mp3 */,
 				D029CA831EB27D60009788CE /* Main.storyboard */,
-				D029CA891EB27D60009788CE /* Assets.xcassets */,
 				D029CA8B1EB27D60009788CE /* LaunchScreen.storyboard */,
 				D029CA8E1EB27D60009788CE /* Info.plist */,
 				D075DAF01EB8C38A0099292E /* GoogleService-Info.plist */,
@@ -167,6 +171,7 @@
 				D0E2109E1EB40F1B00067DA9 /* PostCell.swift */,
 				D0E210A01EB40F5200067DA9 /* ProfileCell.swift */,
 				D0E210A21EB40F5C00067DA9 /* UserCell.swift */,
+				D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */,
 				D0E210A41EB40F7000067DA9 /* SexyView.swift */,
 				D075DAE81EB8C2800099292E /* CircleView.swift */,
 				D075DAEA1EB8C2DC0099292E /* SexyButton.swift */,
@@ -185,6 +190,7 @@
 				D0E2108C1EB40E2500067DA9 /* FeedVC.swift */,
 				D075DAE11EB79E880099292E /* PostVC.swift */,
 				D0E210961EB40E6F00067DA9 /* FriendsVC.swift */,
+				D075DB101EBCC3F50099292E /* FriendProfileVC.swift */,
 				D0E210921EB40E5000067DA9 /* MyProfileVC.swift */,
 				D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */,
 				D0E210941EB40E6300067DA9 /* EditProfileVC.swift */,
@@ -285,9 +291,9 @@
 				D075DAF11EB8C38A0099292E /* GoogleService-Info.plist in Resources */,
 				D029CA8D1EB27D60009788CE /* LaunchScreen.storyboard in Resources */,
 				D075DB031EBA957F0099292E /* DogShakingHead.wav in Resources */,
-				D029CA8A1EB27D60009788CE /* Assets.xcassets in Resources */,
 				D075DAFD1EBA83730099292E /* ErrorBark.wav in Resources */,
 				D075DB051EBA99280099292E /* Woof.mp3 in Resources */,
+				D075DB0F1EBCC3460099292E /* Assets.xcassets in Resources */,
 				D029CA851EB27D60009788CE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -353,6 +359,8 @@
 				D0E2108F1EB40E3200067DA9 /* NewUserVC.swift in Sources */,
 				D0E210AB1EB40FBF00067DA9 /* Post.swift in Sources */,
 				D0E2108D1EB40E2500067DA9 /* FeedVC.swift in Sources */,
+				D075DB111EBCC3F50099292E /* FriendProfileVC.swift in Sources */,
+				D075DB0D1EBC9AB00099292E /* DeletePostCell.swift in Sources */,
 				D029CA821EB27D60009788CE /* LogInVC.swift in Sources */,
 				D075DAEB1EB8C2DC0099292E /* SexyButton.swift in Sources */,
 				D029CA881EB27D60009788CE /* Barked.xcdatamodeld in Sources */,

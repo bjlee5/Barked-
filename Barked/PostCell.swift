@@ -11,10 +11,19 @@ import Firebase
 import Foundation
 import AudioToolbox
 
+protocol CellSubclassDelegate: class {
+    func buttonTapped(cell: PostCell)
+}
+
 class PostCell: UITableViewCell {
     
 
-
+    var delegate: CellSubclassDelegate?
+    var post: Post!
+    var likesRef: FIRDatabaseReference!
+    var storageRef: FIRStorage { return FIRStorage.storage() }
+    
+    @IBOutlet weak var userButton: UIButton!
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var likesImage: UIImageView!
@@ -25,10 +34,9 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var dateLabel: UILabel!
 
     
-    var post: Post!
-    var likesRef: FIRDatabaseReference!
-    var storageRef: FIRStorage {
-        return FIRStorage.storage()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.delegate = nil
     }
     
     override func awakeFromNib() {
@@ -70,6 +78,7 @@ class PostCell: UITableViewCell {
         
         let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
         userRef.observe(.value, with: { (snapshot) in
+            self.postUser.text = "\(post.postUser)"
             self.username.text = "\(post.postUser)"
         })
         
@@ -141,6 +150,11 @@ class PostCell: UITableViewCell {
             }
         })
     }
+    
+    
+    @IBAction func userPressed(_ sender: Any) {
+        self.delegate?.buttonTapped(cell: self)
+}
     
     // Play Sounds
     
