@@ -27,9 +27,17 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var emailField: UITextField!
     @IBOutlet weak var profilePic: UIImageView!
+    @IBOutlet weak var selectedPic: CircleView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.nameField.backgroundColor = UIColor.clear
+        self.usernameField.backgroundColor = UIColor.clear
+        self.passwordField.backgroundColor = UIColor.clear
+        self.emailField.backgroundColor = UIColor.clear
+        
+        selectedPic.isHidden = true
         
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -50,7 +58,9 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         if let image = info[UIImagePickerControllerEditedImage] as? UIImage {
             
-            profilePic.image = image
+            selectedPic.isHidden = false
+            profilePic.isHidden = true 
+            selectedPic.image = image
             imageSelected = true
         }
         

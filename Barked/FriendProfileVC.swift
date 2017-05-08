@@ -15,7 +15,7 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     
     // Refactor storage reference //
     
-    var selectedUser: Users!
+    var selectedUID: String = ""
     var posts = [Post]()
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var profilePicLoaded = false
@@ -38,9 +38,8 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("LEEZUS: This is your man - \(selectedUser)")
+        print("LEEZUS: This is your man - \(selectedUID)")
         
-        showMyPosts()
         fetchPosts()
         loadUserInfo()
         collectionView.reloadData()
@@ -68,7 +67,7 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     // Load Current User Info
     
     func loadUserInfo(){
-        let userRef = DataService.ds.REF_BASE.child("users/\(selectedUser.uid)")
+        let userRef = DataService.ds.REF_BASE.child("users/\(selectedUID)")
         userRef.observe(.value, with: { (snapshot) in
             
             let user = Users(snapshot: snapshot)
@@ -106,40 +105,6 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     
     // MARK: Show Current User Feed
     
-    /// Only show post from Current User
-    func showMyPosts() {
-        
-        let ref = FIRDatabase.database().reference()
-        ref.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            
-            let users = snapshot.value as! [String: AnyObject]
-            
-            for (_, value) in users {
-                if let uName = value["username"] as? String {
-                    self.userRef.observe(.value, with: { (snapshot) in
-                        
-                        let myUser = Users(snapshot: snapshot)
-                        
-                        if uName == myUser.username {
-                            if let followingUsers = value["following"] as? [String: String] {
-                                for (_, user) in followingUsers {
-                                    self.myPosts.append(user)
-                                    
-                                }
-                            }
-                            
-                            self.myPosts.append((FIRAuth.auth()?.currentUser?.uid)!)
-                            print("FEEDBRIAN: You are following these users \(self.myPosts)")
-                            
-                        }
-                    })
-                }
-            }
-            
-            self.fetchPosts()
-        })
-    }
-    
     /// Grabbing the Posts from Firebase
     func fetchPosts() {
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
@@ -150,7 +115,7 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
                     
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         if let postUser = postDict["uid"] as? String {
-                            if postUser == FIRAuth.auth()?.currentUser?.uid {
+                            if postUser == self.selectedUID {
                                 
                                 let key = snap.key
                                 let post = Post(postKey: key, postData: postDict)
@@ -187,8 +152,8 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
             
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor
-            cell.frame.size.width = screenWidth / 5
-            cell.frame.size.height = screenWidth / 5
+            cell.frame.size.width = screenWidth / 4
+            cell.frame.size.height = screenWidth / 4
             
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!) {
                 cell.configureCell(post: post, img: img)

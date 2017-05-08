@@ -8,31 +8,24 @@
 
 import UIKit
 
-class RoundButton: UIButton {
+@IBDesignable public class RoundButton: UIButton {
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        layer.shadowColor = UIColor(red: SHADOW_GRAY, green: SHADOW_GRAY, blue: SHADOW_GRAY, alpha: 0.6).cgColor
-        layer.shadowOpacity = 0.8
-        layer.shadowRadius = 5.0
-        layer.shadowOffset = CGSize(width: 10.0, height: 10.0)
-        imageView?.contentMode = .scaleAspectFit
+    @IBInspectable var borderColor: UIColor = UIColor.white {
+        didSet {
+            self.layer.borderColor = borderColor.cgColor
+        }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-        layer.cornerRadius = self.frame.width / 2
+    @IBInspectable var borderWidth: CGFloat = 0 {
+        didSet {
+            self.layer.borderWidth = borderWidth
+        }
     }
     
-}
-
-class SuperTextField: UITextField {
+    @IBInspectable var cornerRadius: CGFloat = 0 {
+        didSet {
+            self.layer.cornerRadius = cornerRadius
+        }
     
-    override func awakeFromNib() {
-        
-        layer.backgroundColor = UIColor.clear.cgColor
-        
     }
 }

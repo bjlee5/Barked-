@@ -28,7 +28,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
     var following = [String]()
     /// Referencing the Storage DB then, current User
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
-    var selectedUser: Users! 
+    var selectedUID: String = ""
     
 
     @IBOutlet weak var profilePic: UIImageView!
@@ -200,7 +200,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
         if segue.identifier == "FriendProfileVC" {
             print("LEEZUS: Segway to FriendsVC performed!!")
             let destinationViewController = segue.destination as! FriendProfileVC
-            destinationViewController.selectedUser = selectedUser
+            destinationViewController.selectedUID = selectedUID
         }
     }
     
@@ -217,16 +217,16 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
         DataService.ds.REF_BASE.child("users/\(clickedUser)").observe(.value, with: { (snapshot) in
             
             let user = Users(snapshot: snapshot)
-            self.selectedUser = user
-            print("LEEZUS: I have your fucking user right here - \(user)")
-        })
-        
-        if selectedUser != nil {
-        
-        performSegue(withIdentifier: "FriendProfileVC", sender: self)
-        
-    }
+            self.selectedUID = user.uid
+            self.checkSelectedUID()
+    })
 }
+    
+    func checkSelectedUID() {
+        if selectedUID != "" {
+            performSegue(withIdentifier: "FriendProfileVC", sender: self)
+        }
+    }
 
 
     // Logging Out //

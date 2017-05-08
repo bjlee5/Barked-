@@ -39,8 +39,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        showMyPosts()
+
         fetchPosts()
         loadUserInfo()
         collectionView.reloadData()
@@ -57,7 +56,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 0)
-        layout.itemSize = CGSize(width: screenWidth/5, height: screenWidth/5)
+        layout.itemSize = CGSize(width: screenWidth/4, height: screenWidth/4)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         collectionView!.collectionViewLayout = layout
@@ -102,42 +101,6 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     /// Sort Feed of Posts by Current Date
     func sortDatesFor(this: Post, that: Post) -> Bool {
         return this.currentDate > that.currentDate
-    }
-    
-// MARK: Show Current User Feed
-    
-    /// Only show post from Current User
-    func showMyPosts() {
-        
-        let ref = FIRDatabase.database().reference()
-        ref.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
-            
-            let users = snapshot.value as! [String: AnyObject]
-            
-            for (_, value) in users {
-                if let uName = value["username"] as? String {
-                    self.userRef.observe(.value, with: { (snapshot) in
-                        
-                        let myUser = Users(snapshot: snapshot)
-                        
-                        if uName == myUser.username {
-                            if let followingUsers = value["following"] as? [String: String] {
-                                for (_, user) in followingUsers {
-                                    self.myPosts.append(user)
-                                    
-                                }
-                            }
-                            
-                            self.myPosts.append((FIRAuth.auth()?.currentUser?.uid)!)
-                            print("FEEDBRIAN: You are following these users \(self.myPosts)")
-                            
-                        }
-                    })
-                }
-            }
-            
-            self.fetchPosts()
-        })
     }
     
     /// Grabbing the Posts from Firebase 
@@ -187,8 +150,8 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
 
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor
-            cell.frame.size.width = screenWidth / 5
-            cell.frame.size.height = screenWidth / 5
+            cell.frame.size.width = screenWidth / 4
+            cell.frame.size.height = screenWidth / 4
             
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!) {
                 cell.configureCell(post: post, img: img)
@@ -222,7 +185,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     }
     
     @IBAction func editProfile(_ sender: Any) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EditProfileVC")
+    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EditProfileVC")
         self.present(vc, animated: true, completion: nil)
     }
 

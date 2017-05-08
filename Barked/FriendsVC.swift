@@ -145,6 +145,9 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         
     }
     
+    @IBAction func backBtn(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     
     // Play Sounds
     
