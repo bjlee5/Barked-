@@ -81,11 +81,13 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     }
     
 
+ 
     @IBAction func chooseImage(_ sender: Any) {
         present(imagePicker, animated: true, completion: nil)
         chooseImage.isHidden = true
     }
     
+
 
     @IBAction func postImage(_ sender: Any) {
     
@@ -189,8 +191,10 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         
     }
     
+
     @IBAction func backPress(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FeedVC")
+        self.present(vc, animated: true, completion: nil)
     }
     
     // Play Sounds

@@ -13,8 +13,8 @@ import AudioToolbox
 class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     var users = [Friend]()
-    var shouldShowSearchResults = false
-    var searchController: UISearchController!
+    var filteredUsers = [Friend]()
+    let searchController = UISearchController(searchResultsController: nil)
     
     @IBOutlet weak var friendsTableView: UITableView!
     
@@ -24,6 +24,22 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         friendsTableView.dataSource = self
         friendsTableView.delegate = self
         retrieveUser()
+        
+        searchController.searchResultsUpdater = self
+        searchController.dimsBackgroundDuringPresentation = false
+        definesPresentationContext = true
+        friendsTableView.tableHeaderView = searchController.searchBar
+        
+    }
+    
+    // Search Functionality
+    
+    func filterContentForSearchText(searchText: String, scope: String = "All") {
+        filteredUsers = users.filter { user in
+            return user.username.lowercased().contains(searchText.lowercased())
+        }
+        
+        friendsTableView.reloadData()
     }
     
     func retrieveUser() {
@@ -31,7 +47,6 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         ref.child("users").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             
             let users = snapshot.value as! [String: AnyObject]
-            print("CUNTZ5: \(users)")
             self.users.removeAll()
             for (_, value) in users {
                 if let uid = value["uid"] as? String {
@@ -44,7 +59,7 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                             userToShow.imagePath = imagePath
                             userToShow.userID = uid
                             self.users.append(userToShow)
-                            
+    
                         }
                     }
                 }
@@ -62,15 +77,26 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if searchController.isActive && searchController.searchBar.text != "" {
+            return filteredUsers.count
+        }
         return users.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let friend = users[indexPath.row]
+        
         if let cell = friendsTableView.dequeueReusableCell(withIdentifier: "userCell", for: indexPath) as? UserCell {
         
+        let friend: Friend
+        if searchController.isActive && searchController.searchBar.text != "" {
+            friend = filteredUsers[indexPath.row]
+            
+        } else {
+            friend = users[indexPath.row]
+        }
+            
         cell.userName.text = friend.username
         cell.userID = friend.userID
         cell.userImage.downloadImage(from: friend.imagePath!)
@@ -94,6 +120,7 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
         ref.child("users").child(uid).child("following").queryOrderedByKey().observeSingleEvent(of: .value, with: { snapshot in
             if let following = snapshot.value as? [String: AnyObject] {
                 for (ke, value) in following {
+                    
                     if value as! String == self.users[indexPath.row].userID {
                         isFollower = true
                         
@@ -140,13 +167,16 @@ class FriendsVC: UIViewController, UITableViewDataSource, UITableViewDelegate {
                 }
             }
         })
-        
         ref.removeAllObservers()
         
     }
     
     @IBAction func backBtn(_ sender: Any) {
         dismiss(animated: true, completion: nil)
+    }
+    @IBAction func profileBtn(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyProfileVC")
+        self.present(vc, animated: true, completion: nil)
     }
     
     // Play Sounds
@@ -187,5 +217,12 @@ extension UIImageView {
         
     }
     
+}
+
+extension FriendsVC: UISearchResultsUpdating {
+    public func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchText(searchText: searchController.searchBar.text!)
+    }
+
 }
 

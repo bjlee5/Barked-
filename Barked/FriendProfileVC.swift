@@ -20,7 +20,6 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var profilePicLoaded = false
     var storageRef: FIRStorage { return FIRStorage.storage() }
-    var myPosts = [String]()
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     
     // For Layout
@@ -33,6 +32,9 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     @IBOutlet weak var proPic: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var followersAmount: UILabel!
+    @IBOutlet weak var postAmount: UILabel!
+    @IBOutlet weak var followingAmount: UILabel!
     
     
     override func viewDidLoad() {
@@ -42,6 +44,7 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
         
         fetchPosts()
         loadUserInfo()
+        showStats()
         collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -56,7 +59,7 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
         
         let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 3, left: 0, bottom: 3, right: 0)
-        layout.itemSize = CGSize(width: screenWidth/5, height: screenWidth/5)
+        layout.itemSize = CGSize(width: screenWidth/4, height: screenWidth/4)
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         collectionView!.collectionViewLayout = layout
@@ -134,6 +137,39 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
         
     }
     
+    
+    func showStats() {
+        
+        var followersDict = [""]
+        var followingDict = [""]
+
+        let ref = FIRDatabase.database().reference()
+        
+        ref.child("users").child(selectedUID).child("following").queryOrderedByKey().observe(.value, with: { (snapshot) in
+            if let following = snapshot.value as? [String: AnyObject] {
+                for (_, value) in following {
+                    if let myFollower = value as? String {
+                        followersDict.append(myFollower)
+                        self.followingAmount.text = "\(followersDict.count - 1)"
+                    }
+                    
+                }
+            }
+        })
+        
+        ref.child("users").child(selectedUID).child("followers").queryOrderedByKey().observe(.value, with: { (snapshots) in
+            if let followers = snapshots.value as? [String: AnyObject] {
+                for (_, values) in followers {
+                    if let myFollowing = values as? String {
+                        followingDict.append(myFollowing)
+                        self.followersAmount.text = "\(followingDict.count)"
+                    }
+                    
+                }
+            }
+        })
+    }
+
     // Collection View
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -145,15 +181,15 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        postAmount.text = "\(posts.count)"
         let post = posts[indexPath.row]
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
             
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor
-            cell.frame.size.width = screenWidth / 4
-            cell.frame.size.height = screenWidth / 4
+//            cell.frame.size.width = screenWidth / 4
+//            cell.frame.size.height = screenWidth / 4
             
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!) {
                 cell.configureCell(post: post, img: img)
@@ -167,7 +203,12 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
             
         }
     }
+    @IBAction func profileBtn(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyProfileVC")
+        self.present(vc, animated: true, completion: nil)
+    }
     
+
     @IBAction func backPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }

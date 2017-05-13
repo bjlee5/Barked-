@@ -28,6 +28,7 @@
 		D075DB0D1EBC9AB00099292E /* DeletePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */; };
 		D075DB0F1EBCC3460099292E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D075DB0E1EBCC3460099292E /* Assets.xcassets */; };
 		D075DB111EBCC3F50099292E /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB101EBCC3F50099292E /* FriendProfileVC.swift */; };
+		D075DB361EC0A6080099292E /* BoarderedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB351EC0A6080099292E /* BoarderedImages.swift */; };
 		D0E2108D1EB40E2500067DA9 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108C1EB40E2500067DA9 /* FeedVC.swift */; };
 		D0E2108F1EB40E3200067DA9 /* NewUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */; };
 		D0E210931EB40E5000067DA9 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E210921EB40E5000067DA9 /* MyProfileVC.swift */; };
@@ -74,6 +75,7 @@
 		D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostCell.swift; sourceTree = "<group>"; };
 		D075DB0E1EBCC3460099292E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Barked/Assets.xcassets; sourceTree = "<group>"; };
 		D075DB101EBCC3F50099292E /* FriendProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
+		D075DB351EC0A6080099292E /* BoarderedImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoarderedImages.swift; sourceTree = "<group>"; };
 		D0E2108C1EB40E2500067DA9 /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserVC.swift; sourceTree = "<group>"; };
 		D0E210921EB40E5000067DA9 /* MyProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				D075DAF41EBA40260099292E /* BorderedButton.swift */,
 				D075DAEC1EB8C2F40099292E /* SexyField.swift */,
 				D075DAEE1EB8C30B0099292E /* RoundButton.swift */,
+				D075DB351EC0A6080099292E /* BoarderedImages.swift */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -367,6 +370,7 @@
 				D075DB0B1EBB5FFB0099292E /* DeletePostVC.swift in Sources */,
 				D0E210991EB40EA000067DA9 /* ForgotPasswordVC.swift in Sources */,
 				D075DAE91EB8C2800099292E /* CircleView.swift in Sources */,
+				D075DB361EC0A6080099292E /* BoarderedImages.swift in Sources */,
 				D0E210A71EB40FAD00067DA9 /* User.swift in Sources */,
 				D0E210951EB40E6300067DA9 /* EditProfileVC.swift in Sources */,
 				D0E2109F1EB40F1B00067DA9 /* PostCell.swift in Sources */,

@@ -15,7 +15,7 @@ struct Users {
     
     var username: String!
     var email: String?
-    var bio: String?
+    var breed: String?
     var photoURL: String!
     var uid: String!
     var ref: FIRDatabaseReference?
@@ -27,7 +27,7 @@ struct Users {
         ref = snapshot.ref
         username = (snapshot.value! as! NSDictionary)["username"] as! String
         email = (snapshot.value! as! NSDictionary)["email"] as? String
-        bio = (snapshot.value! as! NSDictionary)["bio"] as? String
+        breed = (snapshot.value! as! NSDictionary)["breed"] as? String
         uid = (snapshot.value! as! NSDictionary)["uid"] as! String
         photoURL = (snapshot.value! as! NSDictionary)["photoURL"] as! String
     }

@@ -33,7 +33,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
 
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var currentUser: UILabel!
-
     @IBOutlet weak var tableView: UITableView!
 
     
@@ -45,13 +44,15 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
         profilePic.isHidden = true
         currentUser.isHidden = true
         
-        self.posts.sort(by: self.sortLikesFor)
+        self.posts.sort(by: self.sortDatesFor)
         followingFriends()
         loadUserInfo()
         fetchPosts()
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.contentInset = UIEdgeInsets.zero
+        
 
         // Dismiss Keyboard //
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -63,7 +64,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        self.posts.sort(by: self.sortLikesFor)
+        self.posts.sort(by: self.sortDatesFor)
     }
     
     
@@ -107,7 +108,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
         return this.likes > that.likes
     }
     
-    // Show Current User Feed //
+    // Show Current User Feed
+    
+    // TODO: Redundant Followers
     
     func followingFriends() {
         
@@ -165,7 +168,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
                 }
                 
                 self.tableView.reloadData()
-                self.posts.sort(by: self.sortLikesFor)
+                self.posts.sort(by: self.sortDatesFor)
             }
         })
         
@@ -180,9 +183,16 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let post = posts[indexPath.row]
+    
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell {
             cell.delegate = self
+            
+            // Cell Styling
+            
+            cell.layer.borderWidth = 1.0
+            cell.layer.borderColor = UIColor.white.cgColor
+            
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!), let proImg = FeedVC.imageCache.object(forKey: post.profilePicURL as NSString!) {
                 cell.configureCell(post: post, img: img, proImg: proImg)
             } else {
@@ -228,10 +238,15 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
         }
     }
 
+    @IBAction func profileBtn(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyProfileVC")
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    
 
     // Logging Out //
     
-
     @IBAction func signOutPress(_ sender: Any) {
     
         let firebaseAuth = FIRAuth.auth()

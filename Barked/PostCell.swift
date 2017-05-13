@@ -32,6 +32,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postUser: UILabel!
     @IBOutlet weak var likesNumber: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var cellView: UIView!
 
     
     override func prepareForReuse() {
@@ -42,7 +43,6 @@ class PostCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        
         let tap = UITapGestureRecognizer(target: self, action: #selector(likesTapped))
         tap.numberOfTapsRequired = 1
         likesImage.addGestureRecognizer(tap)
@@ -50,7 +50,6 @@ class PostCell: UITableViewCell {
         
         let currentDate = NSDate()
         dateLabel.text = "\(currentDate)"
-        
     }
     
     // Load Current User //
@@ -128,9 +127,9 @@ class PostCell: UITableViewCell {
         
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
-                self.likesImage.image = UIImage(named: "empty-heart")
+                self.likesImage.image = UIImage(named: "Paw")
             } else {
-                self.likesImage.image = UIImage(named: "filled-heart")
+                self.likesImage.image = UIImage(named: "PawFilled")
             }
         })
     }
@@ -140,11 +139,11 @@ class PostCell: UITableViewCell {
             if let _ = snapshot.value as? NSNull {
                 self.barkSoundEffect()
                 self.playSound()
-                self.likesImage.image = UIImage(named: "filled-heart")
+                self.likesImage.image = UIImage(named: "PawFilled")
                 self.post.adjustLikes(addLike: true)
                 self.likesRef.setValue(true)
             } else {
-                self.likesImage.image = UIImage(named: "empty-heart")
+                self.likesImage.image = UIImage(named: "Paw")
                 self.post.adjustLikes(addLike: false)
                 self.likesRef.removeValue()
             }

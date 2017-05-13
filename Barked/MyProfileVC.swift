@@ -22,8 +22,8 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     var storageRef: FIRStorage {
         return FIRStorage.storage()
     }
-    var myPosts = [String]()
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
+    
     
     // For Layout
     
@@ -36,17 +36,22 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
 
+    @IBOutlet weak var myFollowersAmount: UILabel!
+    @IBOutlet weak var myPostsAmount: UILabel!
+    @IBOutlet weak var followingAmount: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         fetchPosts()
         loadUserInfo()
+        showStats()
+//        showMoreStats()
         collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
         
-        
+    
         
         /////////////// Layout /////////////////
         
@@ -67,7 +72,6 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     // Load Current User Info
     
     func loadUserInfo(){
-        let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
         userRef.observe(.value, with: { (snapshot) in
             
             let user = Users(snapshot: snapshot)
@@ -119,7 +123,6 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
                                 let post = Post(postKey: key, postData: postDict)
                                 self.posts.append(post)
                                 
-                                
                             }
                         }
                     }
@@ -132,6 +135,43 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         
     }
     
+    func showStats() {
+        
+        var followersDict = [""]
+        var followingDict = [""]
+        
+        let uid = FIRAuth.auth()!.currentUser!.uid
+        let ref = FIRDatabase.database().reference()
+        
+        ref.child("users").child(uid).child("following").queryOrderedByKey().observe(.value, with: { (snapshot) in
+            if let following = snapshot.value as? [String: AnyObject] {
+                for (_, value) in following {
+                    if let myFollower = value as? String {
+                        followersDict.append(myFollower)
+                        self.followingAmount.text = "\(followersDict.count - 1)"
+                    }
+                   
+                }
+            }
+        })
+        
+        ref.child("users").child(uid).child("followers").queryOrderedByKey().observe(.value, with: { (snapshots) in
+            if let followers = snapshots.value as? [String: AnyObject] {
+                for (_, values) in followers {
+                    if let myFollowing = values as? String {
+                        followingDict.append(myFollowing)
+                        self.myFollowersAmount.text = "\(followingDict.count)"
+                    }
+                    
+                }
+            }
+        })
+    }
+    @IBAction func backPress(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+
+    
     // Collection View
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -143,15 +183,16 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        myPostsAmount.text = "\(posts.count)"
+
         let post = posts[indexPath.row]
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
 
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor
-            cell.frame.size.width = screenWidth / 4
-            cell.frame.size.height = screenWidth / 4
+//            cell.frame.size.width = screenWidth / 4
+//            cell.frame.size.height = screenWidth / 4
             
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!) {
                 cell.configureCell(post: post, img: img)
@@ -173,6 +214,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
             destinationViewController.selectedPost = selectedPost
         }
     }
+    
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! ProfileCell
