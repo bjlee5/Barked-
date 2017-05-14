@@ -12,6 +12,8 @@ import UIKit
 import Firebase
 import SwiftKeychainWrapper
 
+// The breed label / pickerView is a wreck. Need to find a way to edit button text and use that as breedLabel.text to coordinate w/ the rest of the code in this VC
+
 class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     var imagePicker: UIImagePickerController!
@@ -288,7 +290,9 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var selectedPic: CircleView!
     @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet weak var breedBtn: UIButton!
     @IBOutlet weak var breedLabel: UILabel!
+
 
 
     override func viewDidLoad() {
@@ -296,6 +300,7 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
         pickerView.delegate = self
         pickerView.dataSource = self
+        pickerView.isHidden = true
         
         self.nameField.backgroundColor = UIColor.clear
         self.usernameField.backgroundColor = UIColor.clear
@@ -333,6 +338,25 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         breedLabel.text = breeds[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        
+        if let view = view as? UILabel {
+            label = view
+        } else {
+            label = UILabel()
+        }
+        
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont(name: "SanFranciscoText-Light", size: 14)
+        
+        // where data is an Array of String
+        label.text = breeds[row]
+        
+        return label
     }
     
     // ImagePicker //
@@ -442,6 +466,9 @@ class NewUserVC: UIViewController, UIImagePickerControllerDelegate, UINavigation
         
     }
     
+    @IBAction func selectBreedPress(_ sender: Any) {
+        pickerView.isHidden = false
+    }
     
     
 

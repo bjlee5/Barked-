@@ -26,7 +26,6 @@
 		D075DB091EBB47C30099292E /* Liked.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D075DB081EBB47C30099292E /* Liked.mp3 */; };
 		D075DB0B1EBB5FFB0099292E /* DeletePostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */; };
 		D075DB0D1EBC9AB00099292E /* DeletePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */; };
-		D075DB0F1EBCC3460099292E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D075DB0E1EBCC3460099292E /* Assets.xcassets */; };
 		D075DB111EBCC3F50099292E /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB101EBCC3F50099292E /* FriendProfileVC.swift */; };
 		D075DB361EC0A6080099292E /* BoarderedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB351EC0A6080099292E /* BoarderedImages.swift */; };
 		D0E2108D1EB40E2500067DA9 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108C1EB40E2500067DA9 /* FeedVC.swift */; };
@@ -73,7 +72,6 @@
 		D075DB081EBB47C30099292E /* Liked.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = Liked.mp3; sourceTree = "<group>"; };
 		D075DB0A1EBB5FFB0099292E /* DeletePostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostVC.swift; sourceTree = "<group>"; };
 		D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostCell.swift; sourceTree = "<group>"; };
-		D075DB0E1EBCC3460099292E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Barked/Assets.xcassets; sourceTree = "<group>"; };
 		D075DB101EBCC3F50099292E /* FriendProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
 		D075DB351EC0A6080099292E /* BoarderedImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoarderedImages.swift; sourceTree = "<group>"; };
 		D0E2108C1EB40E2500067DA9 /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
@@ -118,7 +116,6 @@
 		D029CA731EB27D60009788CE = {
 			isa = PBXGroup;
 			children = (
-				D075DB0E1EBCC3460099292E /* Assets.xcassets */,
 				D029CA7E1EB27D60009788CE /* Barked */,
 				D029CA7D1EB27D60009788CE /* Products */,
 				9DA5EB2284302B1BE8212A35 /* Pods */,
@@ -296,7 +293,6 @@
 				D075DB031EBA957F0099292E /* DogShakingHead.wav in Resources */,
 				D075DAFD1EBA83730099292E /* ErrorBark.wav in Resources */,
 				D075DB051EBA99280099292E /* Woof.mp3 in Resources */,
-				D075DB0F1EBCC3460099292E /* Assets.xcassets in Resources */,
 				D029CA851EB27D60009788CE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

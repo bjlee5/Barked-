@@ -174,7 +174,8 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
             "postUser": currentUser.text!,
             "profilePicURL": imgUrlr,
             "currentDate": realDate,
-            "uid": uid!
+            "uid": uid!,
+            "bestInShow": false
         ]
         
         

@@ -21,6 +21,7 @@ class LogInVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
         self.loginField.backgroundColor = UIColor.clear
         self.passwordField.backgroundColor = UIColor.clear 
         

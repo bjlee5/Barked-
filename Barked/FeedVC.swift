@@ -29,7 +29,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
     /// Referencing the Storage DB then, current User
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     var selectedUID: String = ""
-    
+    var best = [Post]()
 
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var currentUser: UILabel!
@@ -39,7 +39,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         
         profilePic.isHidden = true
         currentUser.isHidden = true
@@ -67,9 +66,20 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
         self.posts.sort(by: self.sortDatesFor)
     }
     
-    
     func dismissKeyboard() {
         view.endEditing(true)
+    }
+    
+    func bestInShow() {
+        self.posts.sort(by: self.sortLikesFor)
+        
+        let postToAppend = posts[0]
+        
+        best.append(postToAppend)
+        for dogs in best {
+            dogs.adjustBestInShow(addBest: true)
+        }
+        print("LEEZUS: \(postToAppend.postUser)")
     }
     
     func loadUserInfo(){
@@ -78,7 +88,6 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
             let user = Users(snapshot: snapshot)
             let imageURL = user.photoURL!
             self.currentUser.text = user.username
-            print("LEEZUS: NOW THESE ARE THE DROIDS - \(user.username)")
             
             /// We are downloading the current user's ImageURL then converting it using "data" to the UIImage which takes a property of data
             self.storageRef.reference(forURL: imageURL).data(withMaxSize: 1 * 1024 * 1024, completion: { (imgData, error) in
@@ -190,6 +199,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, Cell
             
             // Cell Styling
             
+            bestInShow()
             cell.layer.borderWidth = 1.0
             cell.layer.borderColor = UIColor.white.cgColor
             
