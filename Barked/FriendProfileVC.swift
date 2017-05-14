@@ -1,8 +1,8 @@
 //
-//  ProfileVC.swift
+//  FriendProfileVC.swift
 //  Barked
 //
-//  Created by MacBook Air on 4/28/17.
+//  Created by MacBook Air on 5/5/17.
 //  Copyright © 2017 LionsEye. All rights reserved.
 //
 
@@ -11,19 +11,16 @@ import Firebase
 import SwiftKeychainWrapper
 import SCLAlertView
 
-class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // Refactor storage reference //
     
-    var selectedPost: Post!
+    var selectedUID: String = ""
     var posts = [Post]()
     static var imageCache: NSCache<NSString, UIImage> = NSCache()
     var profilePicLoaded = false
-    var storageRef: FIRStorage {
-        return FIRStorage.storage()
-    }
+    var storageRef: FIRStorage { return FIRStorage.storage() }
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
-    
     
     // For Layout
     
@@ -31,27 +28,28 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     var screenWidth: CGFloat!
     var screenHeight: CGFloat!
     
-
+    
     @IBOutlet weak var proPic: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
     @IBOutlet weak var collectionView: UICollectionView!
-
-    @IBOutlet weak var myFollowersAmount: UILabel!
-    @IBOutlet weak var myPostsAmount: UILabel!
+    @IBOutlet weak var followersAmount: UILabel!
+    @IBOutlet weak var postAmount: UILabel!
     @IBOutlet weak var followingAmount: UILabel!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        print("LEEZUS: This is your man - \(selectedUID)")
+        
         fetchPosts()
         loadUserInfo()
         showStats()
-//        showMoreStats()
         collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
         
-    
+        
         
         /////////////// Layout /////////////////
         
@@ -72,6 +70,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     // Load Current User Info
     
     func loadUserInfo(){
+        let userRef = DataService.ds.REF_BASE.child("users/\(selectedUID)")
         userRef.observe(.value, with: { (snapshot) in
             
             let user = Users(snapshot: snapshot)
@@ -107,7 +106,9 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         return this.currentDate > that.currentDate
     }
     
-    /// Grabbing the Posts from Firebase 
+    // MARK: Show Current User Feed
+    
+    /// Grabbing the Posts from Firebase
     func fetchPosts() {
         DataService.ds.REF_POSTS.observe(.value, with: { (snapshot) in
             self.posts = []
@@ -117,11 +118,12 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
                     
                     if let postDict = snap.value as? Dictionary<String, AnyObject> {
                         if let postUser = postDict["uid"] as? String {
-                            if postUser == FIRAuth.auth()?.currentUser?.uid {
+                            if postUser == self.selectedUID {
                                 
                                 let key = snap.key
                                 let post = Post(postKey: key, postData: postDict)
                                 self.posts.append(post)
+                                
                                 
                             }
                         }
@@ -135,43 +137,39 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         
     }
     
+    
     func showStats() {
         
         var followersDict = [""]
         var followingDict = [""]
-        
-        let uid = FIRAuth.auth()!.currentUser!.uid
+
         let ref = FIRDatabase.database().reference()
         
-        ref.child("users").child(uid).child("following").queryOrderedByKey().observe(.value, with: { (snapshot) in
+        ref.child("users").child(selectedUID).child("following").queryOrderedByKey().observe(.value, with: { (snapshot) in
             if let following = snapshot.value as? [String: AnyObject] {
                 for (_, value) in following {
                     if let myFollower = value as? String {
                         followersDict.append(myFollower)
                         self.followingAmount.text = "\(followersDict.count - 1)"
                     }
-                   
+                    
                 }
             }
         })
         
-        ref.child("users").child(uid).child("followers").queryOrderedByKey().observe(.value, with: { (snapshots) in
+        ref.child("users").child(selectedUID).child("followers").queryOrderedByKey().observe(.value, with: { (snapshots) in
             if let followers = snapshots.value as? [String: AnyObject] {
                 for (_, values) in followers {
                     if let myFollowing = values as? String {
                         followingDict.append(myFollowing)
-                        self.myFollowersAmount.text = "\(followingDict.count)"
+                        self.followersAmount.text = "\(followingDict.count)"
                     }
                     
                 }
             }
         })
     }
-    @IBAction func backPress(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
-    }
 
-    
     // Collection View
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -183,12 +181,11 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        myPostsAmount.text = "\(posts.count)"
-
+        postAmount.text = "\(posts.count)"
         let post = posts[indexPath.row]
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
-
+            
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor
 //            cell.frame.size.width = screenWidth / 4
@@ -206,30 +203,16 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
             
         }
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "DeletePostVC" {
-            print("LEEZUS: Segway to DeletePost is performed!")
-            let destinationViewController = segue.destination as! DeletePostVC
-            destinationViewController.selectedPost = selectedPost
-        }
+    @IBAction func profileBtn(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyProfileVC")
+        self.present(vc, animated: true, completion: nil)
     }
     
 
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath) as! ProfileCell
-        selectedPost = cell.post
-        performSegue(withIdentifier: "DeletePostVC", sender: self)
-    }
-    
     @IBAction func backPressed(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func editProfile(_ sender: Any) {
-    let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "EditProfileVC")
-        self.present(vc, animated: true, completion: nil)
-    }
-
 }
+
 

@@ -11,10 +11,19 @@ import Firebase
 import Foundation
 import AudioToolbox
 
+protocol CellSubclassDelegate: class {
+    func buttonTapped(cell: PostCell)
+}
+
 class PostCell: UITableViewCell {
     
 
-
+    var delegate: CellSubclassDelegate?
+    var post: Post!
+    var likesRef: FIRDatabaseReference!
+    var storageRef: FIRStorage { return FIRStorage.storage() }
+    
+    @IBOutlet weak var userButton: UIButton!
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var username: UILabel!
     @IBOutlet weak var likesImage: UIImageView!
@@ -23,17 +32,16 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var postUser: UILabel!
     @IBOutlet weak var likesNumber: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var cellView: UIView!
 
     
-    var post: Post!
-    var likesRef: FIRDatabaseReference!
-    var storageRef: FIRStorage {
-        return FIRStorage.storage()
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.delegate = nil
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(likesTapped))
         tap.numberOfTapsRequired = 1
@@ -42,7 +50,6 @@ class PostCell: UITableViewCell {
         
         let currentDate = NSDate()
         dateLabel.text = "\(currentDate)"
-        
     }
     
     // Load Current User //
@@ -70,6 +77,7 @@ class PostCell: UITableViewCell {
         
         let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
         userRef.observe(.value, with: { (snapshot) in
+            self.postUser.text = "\(post.postUser)"
             self.username.text = "\(post.postUser)"
         })
         
@@ -119,9 +127,9 @@ class PostCell: UITableViewCell {
         
         likesRef.observeSingleEvent(of: .value, with: { (snapshot) in
             if let _ = snapshot.value as? NSNull {
-                self.likesImage.image = UIImage(named: "empty-heart")
+                self.likesImage.image = UIImage(named: "Paw")
             } else {
-                self.likesImage.image = UIImage(named: "filled-heart")
+                self.likesImage.image = UIImage(named: "PawFilled")
             }
         })
     }
@@ -131,16 +139,21 @@ class PostCell: UITableViewCell {
             if let _ = snapshot.value as? NSNull {
                 self.barkSoundEffect()
                 self.playSound()
-                self.likesImage.image = UIImage(named: "filled-heart")
+                self.likesImage.image = UIImage(named: "PawFilled")
                 self.post.adjustLikes(addLike: true)
                 self.likesRef.setValue(true)
             } else {
-                self.likesImage.image = UIImage(named: "empty-heart")
+                self.likesImage.image = UIImage(named: "Paw")
                 self.post.adjustLikes(addLike: false)
                 self.likesRef.removeValue()
             }
         })
     }
+    
+    
+    @IBAction func userPressed(_ sender: Any) {
+        self.delegate?.buttonTapped(cell: self)
+}
     
     // Play Sounds
     

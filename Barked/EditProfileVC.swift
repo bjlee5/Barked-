@@ -26,6 +26,9 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        usernameField.backgroundColor = UIColor.clear
+        emailField.backgroundColor = UIColor.clear
+        
         fetchCurrentUser()
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
@@ -194,6 +197,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
         }
         alert.showEdit("Change Password", subTitle: "Please enter the e-mail address associated with your account")
     }
+    
     
 
     @IBAction func deleteAccount(_ sender: Any) {

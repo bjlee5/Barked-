@@ -11,7 +11,7 @@ import Firebase
 import SwiftKeychainWrapper
 import Foundation
 
-class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource, CellSubclassDelegate {
     
     
     // TO DO: Try using nil coelessing operator for if let statements concerning current username and e-mail address, profilePic & default picture
@@ -28,28 +28,31 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     var following = [String]()
     /// Referencing the Storage DB then, current User
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
-    
+    var selectedUID: String = ""
     
 
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var currentUser: UILabel!
-
     @IBOutlet weak var tableView: UITableView!
 
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
+        
         profilePic.isHidden = true
         currentUser.isHidden = true
         
-        self.posts.sort(by: self.sortLikesFor)
+        self.posts.sort(by: self.sortDatesFor)
         followingFriends()
         loadUserInfo()
         fetchPosts()
         
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.contentInset = UIEdgeInsets.zero
+        
 
         // Dismiss Keyboard //
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIInputViewController.dismissKeyboard))
@@ -61,7 +64,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
-        self.posts.sort(by: self.sortLikesFor)
+        self.posts.sort(by: self.sortDatesFor)
     }
     
     
@@ -75,6 +78,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             let user = Users(snapshot: snapshot)
             let imageURL = user.photoURL!
             self.currentUser.text = user.username
+            print("LEEZUS: NOW THESE ARE THE DROIDS - \(user.username)")
             
             /// We are downloading the current user's ImageURL then converting it using "data" to the UIImage which takes a property of data
             self.storageRef.reference(forURL: imageURL).data(withMaxSize: 1 * 1024 * 1024, completion: { (imgData, error) in
@@ -104,7 +108,9 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
         return this.likes > that.likes
     }
     
-    // Show Current User Feed //
+    // Show Current User Feed
+    
+    // TODO: Redundant Followers
     
     func followingFriends() {
         
@@ -162,7 +168,7 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 }
                 
                 self.tableView.reloadData()
-                self.posts.sort(by: self.sortLikesFor)
+                self.posts.sort(by: self.sortDatesFor)
             }
         })
         
@@ -177,8 +183,15 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let post = posts[indexPath.row]
+    
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostCell {
+            cell.delegate = self
+            
+            // Cell Styling
+            
+            cell.layer.borderWidth = 1.0
+            cell.layer.borderColor = UIColor.white.cgColor
             
             if let img = FeedVC.imageCache.object(forKey: post.imageURL as NSString!), let proImg = FeedVC.imageCache.object(forKey: post.profilePicURL as NSString!) {
                 cell.configureCell(post: post, img: img, proImg: proImg)
@@ -192,10 +205,48 @@ class FeedVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
             
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "FriendProfileVC" {
+            print("LEEZUS: Segway to FriendsVC performed!!")
+            let destinationViewController = segue.destination as! FriendProfileVC
+            destinationViewController.selectedUID = selectedUID
+        }
+    }
+    
+    func buttonTapped(cell: PostCell) {
+        guard let indexPath = self.tableView.indexPath(for: cell) else {
+            // Note, this shouldn't happen - how did the user tap on a button that wasn't on screen?
+            return
+        }
+        
+        //  Do whatever you need to do with the indexPath
+        
+        print("BRIAN: Button tapped on row \(indexPath.row)")
+        let clickedUser = posts[indexPath.row].uid
+        DataService.ds.REF_BASE.child("users/\(clickedUser)").observe(.value, with: { (snapshot) in
+            
+            let user = Users(snapshot: snapshot)
+            self.selectedUID = user.uid
+            self.checkSelectedUID()
+    })
+}
+    
+    func checkSelectedUID() {
+        if selectedUID != "" {
+            performSegue(withIdentifier: "FriendProfileVC", sender: self)
+        }
+    }
+
+    @IBAction func profileBtn(_ sender: Any) {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MyProfileVC")
+        self.present(vc, animated: true, completion: nil)
+    }
+    
+    
 
     // Logging Out //
     
-
     @IBAction func signOutPress(_ sender: Any) {
     
         let firebaseAuth = FIRAuth.auth()
