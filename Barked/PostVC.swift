@@ -21,6 +21,10 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     var storageRef: FIRStorage { return FIRStorage.storage() }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
    
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var postText: UITextField!
@@ -41,6 +45,7 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         imagePicker.allowsEditing = true
         
     }
+    
     
     // Load Current User's Profile Pic
     
@@ -157,7 +162,7 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
     
     // Retrieve the Current Date //
     
-    let realDate = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.short)
+    let realDate = DateFormatter.localizedString(from: NSDate() as Date, dateStyle: DateFormatter.Style.short, timeStyle: DateFormatter.Style.none)
     
     // Posting to Firebase //
     
@@ -190,12 +195,6 @@ class PostVC: UIViewController, UIImagePickerControllerDelegate, UINavigationCon
         self.present(vc, animated: true, completion: nil)
         
         
-    }
-    
-
-    @IBAction func backPress(_ sender: Any) {
-        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FeedVC")
-        self.present(vc, animated: true, completion: nil)
     }
     
     // Play Sounds

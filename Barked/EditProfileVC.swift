@@ -10,31 +10,88 @@ import UIKit
 import Firebase
 import SCLAlertView
 
-class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPickerViewDataSource, UIPickerViewDelegate {
     
     var imagePicker: UIImagePickerController!
     var imageSelected = false
     var storageRef: FIRStorage {
         return FIRStorage.storage()
     }
+    var breeds = [String]()
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
+    @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var profilePic: UIImageView!
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var changeProBtn: UIButton!
     @IBOutlet weak var emailField: UITextField!
+    @IBOutlet weak var breedField: UILabel!
+    @IBOutlet weak var pickerView: UIPickerView!
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let dogs = Breeds()
+        let myDogs = dogs.breedList
+        breeds = myDogs
+        
         usernameField.backgroundColor = UIColor.clear
         emailField.backgroundColor = UIColor.clear
+        breedField.backgroundColor = UIColor.clear
+        nameField.backgroundColor = UIColor.clear 
         
         fetchCurrentUser()
+        
         imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         
+        pickerView.isHidden = true
+        pickerView.delegate = self
+        pickerView.dataSource = self
     }
+    
+    // PickerView //
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return breeds.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return breeds[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        breedField.text = breeds[row]
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
+        var label: UILabel
+        
+        if let view = view as? UILabel {
+            label = view
+        } else {
+            label = UILabel()
+        }
+        
+        label.textColor = .white
+        label.textAlignment = .center
+        label.font = UIFont(name: "SanFranciscoText-Light", size: 14)
+        
+        // where data is an Array of String
+        label.text = breeds[row]
+        
+        return label
+    }
+
     
     
     func fetchCurrentUser() {
@@ -43,7 +100,13 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
             
             let user = Users(snapshot: snapshot)
             self.usernameField.text = user.username
+            if user.name == nil {
+                self.nameField.text = user.username
+            } else {
+                self.nameField.text = user.name
+            }
             self.emailField.text = user.email
+            self.breedField.text = user.breed
             let imageURL = user.photoURL!
             
             // Clean up profilePic is storage - model after the post-pic, which is creating a folder in storage. This is too messy right now.
@@ -102,7 +165,17 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
             return
         }
         
+        guard let name = nameField.text, name != "" else {
+            showWarningMessage("Error", subTitle: "You have not entered a valid name!")
+            return
+        }
+        
         guard let email = emailField.text, email != "" else {
+            showWarningMessage("Error", subTitle: "You have not entered a valid e-mail!")
+            return
+        }
+        
+        guard let breed = breedField.text, breed != "" else {
             showWarningMessage("Error", subTitle: "You have not entered a valid e-mail!")
             return
         }
@@ -127,6 +200,8 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
                 let changeRequest = FIRAuth.auth()?.currentUser?.profileChangeRequest()
                 changeRequest?.didChangeValue(forKey: "email")
                 changeRequest?.displayName = username
+                changeRequest?.didChangeValue(forKey: "name")
+                changeRequest?.didChangeValue(forKey: "breed")
                 
                 user?.updateEmail(email, completion: { (error) in
                     if let error = error {
@@ -143,7 +218,7 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
                     if error == nil {
                         
                         let user = FIRAuth.auth()?.currentUser
-                        let userInfo = ["email": user!.email!, "username": username as Any , "uid": user!.uid, "photoURL": photoString!] as [String : Any]
+                        let userInfo = ["email": user!.email!, "username": username as Any, "name": name as Any, "breed": breed as Any, "uid": user!.uid, "photoURL": photoString!] as [String : Any]
                         
                         let userRef = DataService.ds.REF_USERS.child((user?.uid)!)
                         userRef.updateChildValues(userInfo)
@@ -161,43 +236,13 @@ class EditProfileVC: UIViewController, UIImagePickerControllerDelegate, UINaviga
     }
     
     
+    @IBAction func editPress(_ sender: Any) {
+        pickerView.isHidden = false 
+    }
 
     @IBAction func cancelPress(_ sender: Any) {
         dismiss(animated: true, completion: nil)
     }
-    
-    @IBAction func changePassword(_ sender: Any) {
-        
-        let alert = SCLAlertView()
-        let txt = alert.addTextField("Enter email")
-        alert.addButton("OK") {
-            let emailInput = txt.text
-            
-            FIRAuth.auth()?.sendPasswordReset(withEmail: emailInput!, completion: { (error) in
-                if let error = error {
-                    if let errCode = FIRAuthErrorCode(rawValue: error._code) {
-                        switch errCode {
-                        case .errorCodeUserNotFound:
-                            DispatchQueue.main.async {
-                                showWarningMessage("The e-mail address you have entered is not valid")
-                            }
-                        default:
-                            DispatchQueue.main.async {
-                                showWarningMessage("An error has occurred")
-                            }
-                        }
-                    }
-                    return
-                } else {
-                    DispatchQueue.main.async {
-                        showNotice("You'll receive an e-mail shortly to reset your password")
-                    }
-                }
-            })
-        }
-        alert.showEdit("Change Password", subTitle: "Please enter the e-mail address associated with your account")
-    }
-    
     
 
     @IBAction func deleteAccount(_ sender: Any) {

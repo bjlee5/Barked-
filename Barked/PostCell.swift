@@ -33,6 +33,7 @@ class PostCell: UITableViewCell {
     @IBOutlet weak var likesNumber: UILabel!
     @IBOutlet weak var dateLabel: UILabel!
     @IBOutlet weak var cellView: UIView!
+    @IBOutlet weak var bestShowPic: UIImageView!
 
     
     override func prepareForReuse() {
@@ -42,6 +43,8 @@ class PostCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        bestShowPic.isHidden = true
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(likesTapped))
         tap.numberOfTapsRequired = 1
@@ -68,6 +71,12 @@ class PostCell: UITableViewCell {
     //
     
     func configureCell(post: Post, img: UIImage? = nil, proImg: UIImage? = nil) {
+        
+//        if post.bestInShow == true {
+//            bestShowPic.isHidden = false
+//        } else {
+//            bestShowPic.isHidden = true 
+//        }
         
         self.post = post
         self.likesRef = DataService.ds.REF_CURRENT_USERS.child("likes").child(post.postKey)

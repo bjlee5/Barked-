@@ -24,6 +24,10 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     }
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     
     // For Layout
     
@@ -39,6 +43,8 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     @IBOutlet weak var myFollowersAmount: UILabel!
     @IBOutlet weak var myPostsAmount: UILabel!
     @IBOutlet weak var followingAmount: UILabel!
+    @IBOutlet weak var bestInShowImage: UIImageView!
+    @IBOutlet weak var breed: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +56,7 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
-        
+        bestInShowImage.isHidden = true
     
         
         /////////////// Layout /////////////////
@@ -74,8 +80,14 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
     func loadUserInfo(){
         userRef.observe(.value, with: { (snapshot) in
             
+            
             let user = Users(snapshot: snapshot)
-            self.usernameLabel.text = user.username
+            if user.name == nil {
+                self.usernameLabel.text = user.username
+            } else {
+            self.usernameLabel.text = user.name
+            }
+            self.breed.text = user.breed
             let imageURL = user.photoURL!
             
             self.storageRef.reference(forURL: imageURL).data(withMaxSize: 1 * 1024 * 1024, completion: { (imgData, error) in
@@ -186,6 +198,12 @@ class MyProfileVC: UIViewController, UICollectionViewDataSource, UICollectionVie
         myPostsAmount.text = "\(posts.count)"
 
         let post = posts[indexPath.row]
+        
+        for pst in posts {
+            if pst.bestInShow == true {
+                bestInShowImage.isHidden = false
+            }
+        }
         
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
 

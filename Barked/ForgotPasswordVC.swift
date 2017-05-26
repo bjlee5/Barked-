@@ -11,6 +11,10 @@ import Firebase
 
 class ForgotPasswordVC: UIViewController {
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     @IBOutlet weak var emailField: UITextField!
 
     

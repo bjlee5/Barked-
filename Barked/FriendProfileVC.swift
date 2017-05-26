@@ -22,6 +22,10 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     var storageRef: FIRStorage { return FIRStorage.storage() }
     let userRef = DataService.ds.REF_BASE.child("users/\(FIRAuth.auth()!.currentUser!.uid)")
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     // For Layout
     
     var screenSize: CGRect!
@@ -35,7 +39,8 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
     @IBOutlet weak var followersAmount: UILabel!
     @IBOutlet weak var postAmount: UILabel!
     @IBOutlet weak var followingAmount: UILabel!
-    
+    @IBOutlet weak var bestInShowImage: UIImageView!
+    @IBOutlet weak var breed: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,8 +53,7 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
         collectionView.reloadData()
         collectionView.delegate = self
         collectionView.dataSource = self
-        
-        
+        bestInShowImage.isHidden = true
         
         /////////////// Layout /////////////////
         
@@ -74,7 +78,12 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
         userRef.observe(.value, with: { (snapshot) in
             
             let user = Users(snapshot: snapshot)
-            self.usernameLabel.text = user.username
+            if user.name == nil {
+                self.usernameLabel.text = user.username
+            } else {
+                self.usernameLabel.text = user.name
+            }
+            self.breed.text = user.breed
             let imageURL = user.photoURL!
             
             self.storageRef.reference(forURL: imageURL).data(withMaxSize: 1 * 1024 * 1024, completion: { (imgData, error) in
@@ -184,7 +193,14 @@ class FriendProfileVC: UIViewController, UICollectionViewDataSource, UICollectio
         postAmount.text = "\(posts.count)"
         let post = posts[indexPath.row]
         
+        for pst in posts {
+            if pst.bestInShow == true {
+                bestInShowImage.isHidden = false
+            }
+        }
+        
         if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProCell", for: indexPath) as? ProfileCell {
+            
             
             cell.layer.borderWidth = 1
             cell.layer.borderColor = UIColor.white.cgColor

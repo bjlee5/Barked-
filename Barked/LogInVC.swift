@@ -35,6 +35,10 @@ class LogInVC: UIViewController {
         
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         if let _ = KeychainWrapper.standard.string(forKey: KEY_UID){
             print("BRIAN: ID found in keychain")

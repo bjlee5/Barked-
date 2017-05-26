@@ -12,6 +12,7 @@
 		D029CA851EB27D60009788CE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D029CA831EB27D60009788CE /* Main.storyboard */; };
 		D029CA881EB27D60009788CE /* Barked.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D029CA861EB27D60009788CE /* Barked.xcdatamodeld */; };
 		D029CA8D1EB27D60009788CE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D029CA8B1EB27D60009788CE /* LaunchScreen.storyboard */; };
+		D0543EB51ECDE25400EBE02D /* Assets2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D0543EB41ECDE25400EBE02D /* Assets2.xcassets */; };
 		D075DAE21EB79E880099292E /* PostVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAE11EB79E880099292E /* PostVC.swift */; };
 		D075DAE91EB8C2800099292E /* CircleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAE81EB8C2800099292E /* CircleView.swift */; };
 		D075DAEB1EB8C2DC0099292E /* SexyButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DAEA1EB8C2DC0099292E /* SexyButton.swift */; };
@@ -28,6 +29,7 @@
 		D075DB0D1EBC9AB00099292E /* DeletePostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */; };
 		D075DB111EBCC3F50099292E /* FriendProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB101EBCC3F50099292E /* FriendProfileVC.swift */; };
 		D075DB361EC0A6080099292E /* BoarderedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = D075DB351EC0A6080099292E /* BoarderedImages.swift */; };
+		D0A080661EC9EC050037184F /* Breeds.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0A080651EC9EC050037184F /* Breeds.swift */; };
 		D0E2108D1EB40E2500067DA9 /* FeedVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108C1EB40E2500067DA9 /* FeedVC.swift */; };
 		D0E2108F1EB40E3200067DA9 /* NewUserVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */; };
 		D0E210931EB40E5000067DA9 /* MyProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0E210921EB40E5000067DA9 /* MyProfileVC.swift */; };
@@ -58,6 +60,7 @@
 		D029CA871EB27D60009788CE /* Barked.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Barked.xcdatamodel; sourceTree = "<group>"; };
 		D029CA8C1EB27D60009788CE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D029CA8E1EB27D60009788CE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0543EB41ECDE25400EBE02D /* Assets2.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets2.xcassets; sourceTree = "<group>"; };
 		D075DAE11EB79E880099292E /* PostVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PostVC.swift; sourceTree = "<group>"; };
 		D075DAE81EB8C2800099292E /* CircleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CircleView.swift; sourceTree = "<group>"; };
 		D075DAEA1EB8C2DC0099292E /* SexyButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SexyButton.swift; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 		D075DB0C1EBC9AB00099292E /* DeletePostCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeletePostCell.swift; sourceTree = "<group>"; };
 		D075DB101EBCC3F50099292E /* FriendProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendProfileVC.swift; sourceTree = "<group>"; };
 		D075DB351EC0A6080099292E /* BoarderedImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BoarderedImages.swift; sourceTree = "<group>"; };
+		D0A080651EC9EC050037184F /* Breeds.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Breeds.swift; sourceTree = "<group>"; };
 		D0E2108C1EB40E2500067DA9 /* FeedVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedVC.swift; sourceTree = "<group>"; };
 		D0E2108E1EB40E3200067DA9 /* NewUserVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewUserVC.swift; sourceTree = "<group>"; };
 		D0E210921EB40E5000067DA9 /* MyProfileVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MyProfileVC.swift; sourceTree = "<group>"; };
@@ -150,6 +154,7 @@
 				D029CA8E1EB27D60009788CE /* Info.plist */,
 				D075DAF01EB8C38A0099292E /* GoogleService-Info.plist */,
 				D029CA861EB27D60009788CE /* Barked.xcdatamodeld */,
+				D0543EB41ECDE25400EBE02D /* Assets2.xcassets */,
 			);
 			path = Barked;
 			sourceTree = "<group>";
@@ -160,6 +165,7 @@
 				D0E210A61EB40FAD00067DA9 /* User.swift */,
 				D0E210A81EB40FB400067DA9 /* Friend.swift */,
 				D0E210AA1EB40FBF00067DA9 /* Post.swift */,
+				D0A080651EC9EC050037184F /* Breeds.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -287,6 +293,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D075DB091EBB47C30099292E /* Liked.mp3 in Resources */,
+				D0543EB51ECDE25400EBE02D /* Assets2.xcassets in Resources */,
 				D075DB071EBA992B0099292E /* Post.mp3 in Resources */,
 				D075DAF11EB8C38A0099292E /* GoogleService-Info.plist in Resources */,
 				D029CA8D1EB27D60009788CE /* LaunchScreen.storyboard in Resources */,
@@ -362,6 +369,7 @@
 				D075DB0D1EBC9AB00099292E /* DeletePostCell.swift in Sources */,
 				D029CA821EB27D60009788CE /* LogInVC.swift in Sources */,
 				D075DAEB1EB8C2DC0099292E /* SexyButton.swift in Sources */,
+				D0A080661EC9EC050037184F /* Breeds.swift in Sources */,
 				D029CA881EB27D60009788CE /* Barked.xcdatamodeld in Sources */,
 				D075DB0B1EBB5FFB0099292E /* DeletePostVC.swift in Sources */,
 				D0E210991EB40EA000067DA9 /* ForgotPasswordVC.swift in Sources */,

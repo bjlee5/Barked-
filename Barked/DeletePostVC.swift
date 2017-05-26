@@ -16,6 +16,10 @@ class DeletePostVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     var storageRef: FIRStorage {
         return FIRStorage.storage()
     }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
 
     @IBOutlet weak var tableView: UITableView!
     
